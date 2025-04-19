@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Microsoft.Extensions.DependencyInjection;
 using DomainLayer.Contracts;
-using Persistence; // Add this using directive
+using Persistence;
+using Service.MappingProfiles; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -24,6 +25,9 @@ namespace E_Commerce.Web
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
             builder.Services.AddScoped<IUnitOfWork, UnirOfWork>();
+            // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
+           // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+           builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
 
             #endregion
 
