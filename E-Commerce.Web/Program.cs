@@ -3,7 +3,9 @@ using Persistence.Data;
 using Microsoft.Extensions.DependencyInjection;
 using DomainLayer.Contracts;
 using Persistence;
-using Service.MappingProfiles; // Add this using directive
+using Service.MappingProfiles;
+using ServiceAbstraction;
+using Service; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -28,6 +30,7 @@ namespace E_Commerce.Web
             // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
            builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
+            builder.Services.AddScoped<IServiceManager,ServiceManager>();
 
             #endregion
 
