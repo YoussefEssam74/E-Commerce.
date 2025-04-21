@@ -2,13 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Microsoft.Extensions.DependencyInjection;
 using DomainLayer.Contracts;
-using Persistence; // Add this using directive
+using Persistence;
+using Service.MappingProfiles;
+using ServiceAbstraction;
+using Service; // Add this using directive
 
 namespace E_Commerce.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +26,19 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
+           // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+           builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
+            builder.Services.AddScoped<IServiceManager,ServiceManager>();
 
             #endregion
 
 
             var app = builder.Build();
-            var  Scoope =app.Services.CreateScope();
+            using var  Scoope =app.Services.CreateScope();
             var ObjectOfDataSeeding=Scoope.ServiceProvider.GetRequiredService<IDataSeeding>();
-            ObjectOfDataSeeding.DataSeed();
+            await ObjectOfDataSeeding.DataSeedAsync();
 
             #region  Configure the HTTP request pipeline.
 
@@ -41,7 +49,7 @@ namespace E_Commerce.Web
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.MapControllers();
 
             #endregion
