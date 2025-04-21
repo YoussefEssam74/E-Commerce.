@@ -24,6 +24,7 @@ namespace Service
         public async Task<IEnumerable<ProductDTo>> GetAllProductsAsync()
         {
             var Products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync();
+
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTo>>(Products);
         }
                
@@ -37,7 +38,7 @@ namespace Service
         public async  Task<ProductDTo> GetProductByIdAsync(int Id)
         {
             var Product= await _unitOfWork.GetRepository<Product, int>().GetByIdAsync( Id);
-            return _mapper.Map<Product, ProductDTo>(source: Product);
+            return _mapper.Map<Product, ProductDTo>( Product);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace E_Commerce.Web
 {
     public class Program
     {
-        public static async void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +26,7 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork, UnirOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
            builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
@@ -36,9 +36,9 @@ namespace E_Commerce.Web
 
 
             var app = builder.Build();
-            var  Scoope =app.Services.CreateScope();
+            using var  Scoope =app.Services.CreateScope();
             var ObjectOfDataSeeding=Scoope.ServiceProvider.GetRequiredService<IDataSeeding>();
-           await ObjectOfDataSeeding.DataSeedAsync();
+            await ObjectOfDataSeeding.DataSeedAsync();
 
             #region  Configure the HTTP request pipeline.
 

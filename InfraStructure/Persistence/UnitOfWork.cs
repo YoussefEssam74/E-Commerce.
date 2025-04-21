@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-    public class UnirOfWork (StoreDbContext _dbContext): IUnitOfWork
+    public class UnitOfWork (StoreDbContext _dbContext): IUnitOfWork
     {
         private readonly Dictionary<string, object> _repositories = [];
                                                                     //new Dictionary<Type, object>();

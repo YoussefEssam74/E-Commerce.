@@ -25,8 +25,9 @@ namespace Persistence
 
                 if (!_dbContext.ProductBrands.Any())
                 {
-                    var ProductBrandData =  File.OpenRead(@"..\InfraStructure\Persistence\Data\DataSeed\brands.json");
 
+
+                    var ProductBrandData = File.OpenRead(@"..\InfraStructure\Persistence\Data\DataSeed\brands.json");
                     // var ProductBrandData = await File.ReadAllTextAsync(@"..\InfraStructure\Persistence\Data\DataSeed\brands.json");
                     var ProductBrands = await JsonSerializer.DeserializeAsync<List<ProductBrand>>(ProductBrandData);
                     if (ProductBrands is not null && ProductBrands.Any())
@@ -38,10 +39,10 @@ namespace Persistence
                     //read data
                     var ProductTypesData = File.OpenRead(@"..\InfraStructure\Persistence\Data\DataSeed\types.json");
                     // convrt to c# object
-                    var ProductTypes = await JsonSerializer.DeserializeAsync<List<ProductBrand>>(ProductTypesData);
+                    var ProductTypes = await JsonSerializer.DeserializeAsync<List<ProductType>>(ProductTypesData);
                     // save to database
                     if (ProductTypes is not null && ProductTypes.Any())
-                        await _dbContext.ProductBrands.AddRangeAsync(ProductTypes);
+                        await _dbContext.ProductTypes.AddRangeAsync(ProductTypes);
 
                 }
                 if (!_dbContext.Products.Any())
@@ -55,8 +56,9 @@ namespace Persistence
             }
             catch (Exception ex)
             {
-                // Log the exception (ex) here if needed
-               
+                Console.WriteLine($"Error during data seeding: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+                throw;
             }
            
         }
