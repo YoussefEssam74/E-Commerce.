@@ -5,7 +5,8 @@ using DomainLayer.Contracts;
 using Persistence;
 using Service.MappingProfiles;
 using ServiceAbstraction;
-using Service; // Add this using directive
+using Service;
+using Persistence.Repositories; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -26,7 +27,7 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
            builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);

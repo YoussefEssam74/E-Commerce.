@@ -20,6 +20,13 @@ namespace Persistence
             {
                 Query = Query.Where(predicate: specifications.Criteria);
             }
+
+            // Query = _dbContext. Products 
+            // IncludeExp = P=>P. ProductBrand 
+            // Query = _dbContext.Products. Include(P=>P.ProductBrand) 
+            // IncludeExp PP. Product Type 
+            // Query = dbContext. Products. Include(P=>P.ProductBrand). Include (P=>P.Product Type); 
+            
             if (specifications.IncludeExpression is not null && specifications.IncludeExpression.Count > 0)
             {
                 //foreach (var exp in specifications. IncludeExpressions) 
