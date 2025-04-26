@@ -39,7 +39,6 @@ namespace Persistence
             {
                 Query = Query.OrderByDescending(specifications.OrderByDescending);
             }
-                    
             if (specifications.IncludeExpression is not null && specifications.IncludeExpression.Count > 0)
             {
                 //foreach (var exp in specifications. IncludeExpressions) 
@@ -47,7 +46,11 @@ namespace Persistence
                 Query = specifications.IncludeExpression.Aggregate(Query, (CurrentQuery, IncludeExp) => CurrentQuery.Include(IncludeExp));
 
             }
-                    return Query;
+            if (specifications.IsPaginated)
+            {
+                Query = Query.Skip(specifications.Skip).Take(specifications.Take);
+            }
+                return Query;
         }
     }
 }
