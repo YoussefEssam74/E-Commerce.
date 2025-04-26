@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service
 {
@@ -23,12 +24,18 @@ namespace Service
             return BrandsDto;
         }
 
-        public async Task<IEnumerable<ProductDTo>> GetAllProductsAsync(ProductQueryParams queryParams)
+        public async Task<PaginationResult<ProductDTo>> GetAllProductsAsync(ProductQueryParams queryParams)
         {
             var Specifications = new ProductWithBrandAndTypeSpecifications(queryParams);
-            var Products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(Specifications);
+            var AllProducts = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(specifications: Specifications);
+            var Data=_mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTo>>( AllProducts);
+            var ProductCount = AllProducts.Count();
+            return new PaginationResult<ProductDTo>(queryParams.PageIndex, ProductCount, 0,Data);
 
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTo>>(Products);
+            //var Specifications = new ProductWithBrandAndTypeSpecifications(queryParams);
+            //var Products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(Specifications);
+
+            //return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTo>>(Products);
         }
 
         public async Task<IEnumerable<TypeDTo>> GetAllTypesAsync()
