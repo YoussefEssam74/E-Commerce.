@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObjects;
+﻿using Shared;
+using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ServiceAbstraction
     {
         // GetAll Products 
 
-        Task<IEnumerable<ProductDTo>> GetAllProductsAsync();
+        Task<PaginationResult<ProductDTo>> GetAllProductsAsync(ProductQueryParams queryParams);
         // get Product By Id 
 
         Task<ProductDTo> GetProductByIdAsync(int Id);
