@@ -6,7 +6,8 @@ using Persistence;
 using Service.MappingProfiles;
 using ServiceAbstraction;
 using Service;
-using Persistence.Repositories; // Add this using directive
+using Persistence.Repositories;
+using E_Commerce.Web.CustomMiddleWares; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -43,6 +44,17 @@ namespace E_Commerce.Web
 
             #region  Configure the HTTP request pipeline.
 
+
+            //app.Use(middleware: async(RequestContext, NextMiddleware)=>
+            //{
+
+            //    Console.WriteLine(value: "Request Under Processing");
+
+            //    await NextMiddleware.Invoke();
+            //    Console.WriteLine( "Waiting Response");
+            //    Console.WriteLine( RequestContext.Response.Body);
+            //});
+            app.UseMiddleware<CustomExceptionHandlerMiddleWare>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
