@@ -7,7 +7,10 @@ using Service.MappingProfiles;
 using ServiceAbstraction;
 using Service;
 using Persistence.Repositories;
-using E_Commerce.Web.CustomMiddleWares; // Add this using directive
+using E_Commerce.Web.CustomMiddleWares;
+using Microsoft.AspNetCore.Mvc;
+using Shared.ErrorModels;
+using E_Commerce.Web.Factories; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -33,6 +36,10 @@ namespace E_Commerce.Web
            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
            builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
             builder.Services.AddScoped<IServiceManager,ServiceManager>();
+            builder.Services.Configure<ApiBehaviorOptions>((Options) =>
+            {
+                Options.InvalidModelStateResponseFactory = ApiResponseFactory.GenerateApiValidationErrorResponse;
+    });
 
             #endregion
 
