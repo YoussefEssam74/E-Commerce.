@@ -10,7 +10,8 @@ using Persistence.Repositories;
 using E_Commerce.Web.CustomMiddleWares;
 using Microsoft.AspNetCore.Mvc;
 using Shared.ErrorModels;
-using E_Commerce.Web.Factories; // Add this using directive
+using E_Commerce.Web.Factories;
+using E_Commerce.Web.Extentions; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -24,30 +25,18 @@ namespace E_Commerce.Web
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<StoreDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddSwaggerServices();
             // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
-           // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
-           builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
-            builder.Services.AddScoped<IServiceManager,ServiceManager>();
-            builder.Services.Configure<ApiBehaviorOptions>((Options) =>
-            {
-                Options.InvalidModelStateResponseFactory = ApiResponseFactory.GenerateApiValidationErrorResponse;
-    });
+            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+            builder.Services.AddWebApplicationServices();
 
             #endregion
 
 
             var app = builder.Build();
-            using var  Scoope =app.Services.CreateScope();
-            var ObjectOfDataSeeding=Scoope.ServiceProvider.GetRequiredService<IDataSeeding>();
-            await ObjectOfDataSeeding.DataSeedAsync();
+            await app.SeedDataBaseAsync();
 
             #region  Configure the HTTP request pipeline.
 
@@ -61,11 +50,10 @@ namespace E_Commerce.Web
             //    Console.WriteLine( "Waiting Response");
             //    Console.WriteLine( RequestContext.Response.Body);
             //});
-            app.UseMiddleware<CustomExceptionHandlerMiddleWare>();
+            app.UseCustomExceptionMiddleWare();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddleWare();
             }
 
             app.UseHttpsRedirection();
