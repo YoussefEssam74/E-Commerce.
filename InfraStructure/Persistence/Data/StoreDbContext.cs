@@ -1,4 +1,4 @@
-﻿using DomainLayer.Models;
+﻿using DomainLayer.Models.ProductModule;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data.Configurations;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Data
 {
-     
+
     public class StoreDbContext:DbContext
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)

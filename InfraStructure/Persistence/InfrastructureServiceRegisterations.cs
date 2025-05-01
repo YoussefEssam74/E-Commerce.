@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 
 namespace Persistence
 {
@@ -14,7 +15,12 @@ namespace Persistence
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDataSeeding, DataSeeding>();
-            return services;
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddSingleton<IConnectionMultiplexer>( (_) =>
+            {
+                return ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnectionString"));
+            });
+                    return services;
         }
     }
 }
