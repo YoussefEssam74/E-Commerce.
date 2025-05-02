@@ -12,6 +12,7 @@ namespace Service
     {
         public static IServiceCollection AddApplicationServices (this  IServiceCollection Services)
         {
+
             Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
             Services.AddScoped<IServiceManager, ServiceManager>();
             return Services;

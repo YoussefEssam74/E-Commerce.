@@ -19,6 +19,7 @@ namespace Persistence
             services.AddSingleton<IConnectionMultiplexer>( (_) =>
             {
                 return ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnectionString"));
+
             });
                     return services;
         }
