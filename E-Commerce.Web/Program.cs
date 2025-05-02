@@ -6,7 +6,12 @@ using Persistence;
 using Service.MappingProfiles;
 using ServiceAbstraction;
 using Service;
-using Persistence.Repositories; // Add this using directive
+using Persistence.Repositories;
+using E_Commerce.Web.CustomMiddleWares;
+using Microsoft.AspNetCore.Mvc;
+using Shared.ErrorModels;
+using E_Commerce.Web.Factories;
+using E_Commerce.Web.Extentions; // Add this using directive
 
 namespace E_Commerce.Web
 {
@@ -20,33 +25,35 @@ namespace E_Commerce.Web
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<StoreDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddSwaggerServices();
             // builder.Services.AddAutoMapper(x=>x.AddProfile(new ProductProfile()));
-           // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
-           builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
-            builder.Services.AddScoped<IServiceManager,ServiceManager>();
+            // builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+            builder.Services.AddWebApplicationServices();
 
             #endregion
 
 
             var app = builder.Build();
-            using var  Scoope =app.Services.CreateScope();
-            var ObjectOfDataSeeding=Scoope.ServiceProvider.GetRequiredService<IDataSeeding>();
-            await ObjectOfDataSeeding.DataSeedAsync();
+            await app.SeedDataBaseAsync();
 
             #region  Configure the HTTP request pipeline.
 
+
+            //app.Use(middleware: async(RequestContext, NextMiddleware)=>
+            //{
+
+            //    Console.WriteLine(value: "Request Under Processing");
+
+            //    await NextMiddleware.Invoke();
+            //    Console.WriteLine( "Waiting Response");
+            //    Console.WriteLine( RequestContext.Response.Body);
+            //});
+            app.UseCustomExceptionMiddleWare();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddleWare();
             }
 
             app.UseHttpsRedirection();
