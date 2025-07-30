@@ -10,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace Presntation.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]   //BaseUrl/api/Products
-    public class ProductsController(IServiceManager _serviceManager) : ControllerBase
+    
+    public class ProductsController(IServiceManager _serviceManager) : ApiBaseController
     {
         // Get All Products
         //Get BaseUrl/api/Products
