@@ -11,7 +11,7 @@ namespace Presntation.Controllers
 {
     public class AuthenticationController(IServiceManager _serviceManager): ApiBaseController
     {
-        [HttpPost("مogin")]
+        [HttpPost("Login")]
         public async Task<ActionResult<UserDTo>> Login( LoginDTo loginDTo)
         {
             var User = await _serviceManager.AuthenticationService.LoginAsync(loginDTo);
@@ -20,7 +20,7 @@ namespace Presntation.Controllers
             return Ok(User);
         }
 
-        [HttpPost("قegister")]
+        [HttpPost("Register")]
         public async Task<ActionResult<UserDTo>> Register(RegisterDTo registerDTo)
         {
             var User = await _serviceManager.AuthenticationService.RegisterAsync(registerDTo);
