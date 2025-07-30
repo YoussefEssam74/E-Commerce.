@@ -12,7 +12,7 @@ using Persistence.Identity;
 namespace Persistence.Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
-    [Migration("20250502214626_IdentityInitialCreate")]
+    [Migration("20250503005423_IdentityInitialCreate")]
     partial class IdentityInitialCreate
     {
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace Persistence.Identity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LasttName")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

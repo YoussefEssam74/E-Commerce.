@@ -4,7 +4,7 @@
     {
         public int Id { get; set; } // Pk
         public string FirstName { get; set; } = default!;
-        public string LasttName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
 
         public string Street { get; set; } = default!;
         public string City { get; set; } = default!;
