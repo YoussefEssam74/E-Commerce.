@@ -37,7 +37,7 @@ namespace E_Commerce.Web
 
 
             var app = builder.Build();
-            await app.SeedDataBaseAsync();
+           await app.SeedDataBaseAsync();
            
 
             #region  Configure the HTTP request pipeline.
