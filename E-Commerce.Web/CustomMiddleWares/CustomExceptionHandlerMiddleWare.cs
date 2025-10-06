@@ -27,41 +27,35 @@ namespace E_Commerce.Web.CustomMiddleWares
             }
             catch (Exception ex)
             {
-                await HandleNotFoundAsync(httpContext, ex);
+            _logger.LogError(ex, "Somthing Went Wrong");
+                await HandleExceptionAsync(httpContext, ex);
 
             }
 
         }
 
-        private async Task HandleNotFoundAsync(HttpContext httpContext, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
         {
-            _logger.LogError(ex, "Somthing Went Wrong");
-
-            // Set status Code For Response 
-            //httpContext.Response. StatusCode = (int) HttpStatusCode. InternalServerError; 
-            httpContext.Response.StatusCode = ex switch
-            {
-                NotFoundException => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError
-            };
-
-            //Set Content Type For Response
-            //httpContext.Response.ContentType = "application/json";
-
-            // Response Object 
             var Response = new ErrorToReturn()
             {
-                StatusCode = httpContext.Response.StatusCode,
                 ErrorMessage = ex.Message
             };
 
-
-
-
-            // Return Object As JSON 
-            // var ResponseToReturn = JsonSerializer.Serialize(value: Response);
-            //await httpContext.Response.WriteAsync( ResponseToReturn);
+            Response.StatusCode = ex switch
+            {
+                NotFoundException => StatusCodes.Status404NotFound,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
+                BadRequestException badRequestException => GetBadRequestErrors(badRequestException, Response),
+                _ => StatusCodes.Status500InternalServerError
+            };
+            httpContext.Response.StatusCode = Response.StatusCode;
             await httpContext.Response.WriteAsJsonAsync(Response);
+        }
+
+        private int GetBadRequestErrors(BadRequestException badRequestException, ErrorToReturn response)
+        {
+            response.Errors = badRequestException.Errors;
+            return StatusCodes.Status400BadRequest;
         }
 
         private static async Task HandleNotFoundEndPointAsync(HttpContext httpContext)
@@ -73,7 +67,7 @@ namespace E_Commerce.Web.CustomMiddleWares
                     StatusCode = StatusCodes.Status404NotFound,
                     ErrorMessage = $"End Point {httpContext.Request.Path} is Not Found"
                 };
-                await httpContext.Response.WriteAsJsonAsync(value: Response);
+                await httpContext.Response.WriteAsJsonAsync( Response);
 
             }
         }
