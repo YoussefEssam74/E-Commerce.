@@ -25,11 +25,11 @@ namespace ServiceAbstraction
         // Get Current User Address
         // Take string Email Then Return AddressDTO
         
-        Task<AddressDto> GetCurrentUserAddressAsync(string Email);
+        Task<AddressDTo> GetCurrentUserAddressAsync(string Email);
         // Update Current User Address
         // Take AdressDTO Updated Address and string Email Then Return AdressDTO Address after Update
        
-        Task<AddressDto> UpdateCurrentUserAddressAsync(string email, AddressDto addressDto);
+        Task<AddressDTo> UpdateCurrentUserAddressAsync(string email, AddressDTo addressDto);
         // Get Current User
         // Take string Email Then Return UserDTo Token Email and Display Name
         Task<UserDTo> GetCurrentUserAsync(string Email);

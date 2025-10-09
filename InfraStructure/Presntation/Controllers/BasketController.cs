@@ -15,14 +15,14 @@ namespace Presntation.Controllers
         // Get Basket 
         [HttpGet] // GET BaseUrl/api/Basket 
 
-        public async Task<ActionResult<BasketDto>> GetBasket(string Key)
+        public async Task<ActionResult<BasketDTo>> GetBasket(string Key)
         {
             var Basket = await _serviceManager.BasketService.GetBasketAsync(Key);
             return Ok( Basket);
         }
         // Create Or Update Basket 
         [HttpPost]
-        public async Task<ActionResult<BasketDto>> CreateOrUpdateBasket(BasketDto basket)
+        public async Task<ActionResult<BasketDTo>> CreateOrUpdateBasket(BasketDTo basket)
         {
             var Basket = await _serviceManager.BasketService.CreateOrUpdateBasketAsync(basket);
             return Ok( Basket);

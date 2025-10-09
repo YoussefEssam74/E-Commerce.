@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DomainLayer.Models.IdentityModule;
+using DomainLayer.Models.OrderModule;
 using Shared.DataTransferObjects.IdentityDTos;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Service.MappingProfiles
 {
-    public class IdentityProfile : Profile
+    public class OrderProfile : Profile
     {
-        public IdentityProfile()
+        public OrderProfile()
         {
-            CreateMap<Address, AddressDTo>().ReverseMap();
-        }
+            CreateMap<AddressDTo, OrderAddress>();
+        }          
     }
 }

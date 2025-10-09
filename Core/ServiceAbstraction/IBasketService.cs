@@ -9,8 +9,8 @@ namespace ServiceAbstraction
 {
     public interface IBasketService
     {
-        Task<BasketDto?> GetBasketAsync(string Key);
-        Task<BasketDto?> CreateOrUpdateBasketAsync(BasketDto basket);
+        Task<BasketDTo?> GetBasketAsync(string Key);
+        Task<BasketDTo?> CreateOrUpdateBasketAsync(BasketDTo basket);
         Task<bool> DeleteBasketAsync(string Key);
     }
 }

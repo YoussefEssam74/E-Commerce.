@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.BasketModuleDtos
 {
-    public class BasketDto
+    public class BasketDTo
     {
         public string Id { get; set; }
-        public ICollection<BasketItemDto> Items { get; set; } = [];
+        public ICollection<BasketItemDTo> Items { get; set; } = [];
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.IdentityDTos
 {
-    public class AddressDto
+    public class AddressDTo
     {
         public string City { get; set; } = default!;
         public string Street { get; set; } = default!;

@@ -14,9 +14,9 @@ namespace Service
 {
     public class BasketService(IBasketRepository _basketRepository,IMapper _mapper) : IBasketService
     {
-        public async Task<BasketDto> CreateOrUpdateBasketAsync(BasketDto basket)
+        public async Task<BasketDTo> CreateOrUpdateBasketAsync(BasketDTo basket)
         {
-            var CustomerBasket = _mapper.Map<BasketDto, CustomerBasket>( basket);
+            var CustomerBasket = _mapper.Map<BasketDTo, CustomerBasket>( basket);
             var CreateOrUpdatedBasket = await _basketRepository.CreateOrUpdateBasketAsync( CustomerBasket);
             if (CreateOrUpdatedBasket is not null)
                 return await GetBasketAsync( basket.Id);
@@ -25,11 +25,11 @@ namespace Service
         }
 
 
-        public async Task<BasketDto> GetBasketAsync(string Key)
+        public async Task<BasketDTo> GetBasketAsync(string Key)
         {
             var Basket = await _basketRepository.GetBasketAsync(Key);
             if (Basket is not null)
-                return _mapper.Map<CustomerBasket, BasketDto>(Basket);
+                return _mapper.Map<CustomerBasket, BasketDTo>(Basket);
             else
                 throw new BasketNotFoundException(Key);
         }
