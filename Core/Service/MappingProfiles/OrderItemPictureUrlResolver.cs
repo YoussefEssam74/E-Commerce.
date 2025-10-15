@@ -29,4 +29,5 @@ namespace Service.MappingProfiles
                 return Url;
             }
         }
+    }
 }

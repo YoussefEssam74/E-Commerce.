@@ -3,6 +3,7 @@ using DomainLayer.Contracts;
 using DomainLayer.Exceptions;
 using DomainLayer.Models.OrderModule;
 using DomainLayer.Models.ProductModule;
+using ServiceAbstraction;
 using Shared.DataTransferObjects.IdentityDTos;
 using Shared.DataTransferObjects.OrderDTos;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class OrderProfile(IMapper _mapper, IBasketRepository _basketRepository, IUnitOfWork _unitOfWork) : Profile
+    public class OrderService(IMapper _mapper, IBasketRepository _basketRepository, IUnitOfWork _unitOfWork) : IOrderService
     {
         public async Task<OrderToReturnDTo> CreateOrder(OrderDTo orderDTo, string Email)
         {

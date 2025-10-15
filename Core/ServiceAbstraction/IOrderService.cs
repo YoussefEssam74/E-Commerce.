@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServiceAbstraction
 {
-    public interface IOrederService
+    public interface IOrderService
     {
         // Create Order
        // Creating Order Will Take Basket Id, Shipping Address , Delivery Method Id ,
