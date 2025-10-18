@@ -13,7 +13,7 @@ namespace Service.MappingProfiles
     {
         public IdentityProfile()
         {
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Address, AddressDTo>().ReverseMap();
         }
     }
 }

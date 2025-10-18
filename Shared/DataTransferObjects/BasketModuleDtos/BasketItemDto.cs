@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.BasketModuleDtos
 {
-    public class BasketItemDto
+    public class BasketItemDTo
     {
         public int Id { get; set; }
 

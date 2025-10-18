@@ -37,14 +37,14 @@ namespace Service
             };
         }
 
-        public async Task<AddressDto> GetCurrentUserAddressAsync(string Email)
+        public async Task<AddressDTo> GetCurrentUserAddressAsync(string Email)
         {
             var user = await _userManager.Users.Include(u => u.Address)
                                                           .FirstOrDefaultAsync(u => u.Email == Email) ?? throw new UserNotFoundException(Email);
 
             if (user.Address is null)
                 throw new AddressNotFoundException(Email);
-            return mapper.Map<Address, AddressDto>(user.Address);
+            return mapper.Map<Address, AddressDTo>(user.Address);
         }
 
         public async Task<UserDTo> LoginAsync(LoginDTo loginDTo)
@@ -85,7 +85,7 @@ namespace Service
 
         }
 
-        public async Task<AddressDto> UpdateCurrentUserAddressAsync(string email, AddressDto addressDto)
+        public async Task<AddressDTo> UpdateCurrentUserAddressAsync(string email, AddressDTo addressDto)
         {
             var user = await _userManager.Users.Include(u => u.Address)
                                                .FirstOrDefaultAsync(u => u.Email == email) ?? throw new UserNotFoundException(email);
@@ -100,11 +100,11 @@ namespace Service
             }
             else
             {
-                user.Address = mapper.Map<AddressDto, Address>(addressDto);
+                user.Address = mapper.Map<AddressDTo, Address>(addressDto);
             }
 
             await _userManager.UpdateAsync(user);
-            return mapper.Map<AddressDto>(user.Address);
+            return mapper.Map<AddressDTo>(user.Address);
         }
 
 

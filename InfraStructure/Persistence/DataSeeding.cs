@@ -114,6 +114,20 @@ namespace Persistence
 
                 }
 
+                if (!_dbContext.DeliveryMethods.Any())
+
+                {
+
+                    var DeliveryMethodsStream = File.OpenRead(@"..\InfraStructure\Persistence\Data\DataSeed\delivery.json");
+
+                    var DeliveryMethods = await JsonSerializer.DeserializeAsync<List<DeliveryMethod>>(DeliveryMethodsStream);
+
+                    if (DeliveryMethods is not null && DeliveryMethods.Any())
+
+                        await _dbContext.DeliveryMethods.AddRangeAsync(DeliveryMethods);
+
+                }
+
                 await _dbContext.SaveChangesAsync();
 
             }
