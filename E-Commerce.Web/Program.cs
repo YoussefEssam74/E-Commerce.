@@ -1,17 +1,19 @@
-using Microsoft.EntityFrameworkCore;
-using Persistence.Data;
-using Microsoft.Extensions.DependencyInjection;
 using DomainLayer.Contracts;
+using E_Commerce.Web.CustomMiddleWares;
+using E_Commerce.Web.Extentions; // Add this using directive
+using E_Commerce.Web.Factories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Persistence;
+using Persistence.Data;
+using Persistence.Repositories;
+using Service;
 using Service.MappingProfiles;
 using ServiceAbstraction;
-using Service;
-using Persistence.Repositories;
-using E_Commerce.Web.CustomMiddleWares;
-using Microsoft.AspNetCore.Mvc;
 using Shared.ErrorModels;
-using E_Commerce.Web.Factories;
-using E_Commerce.Web.Extentions; // Add this using directive
+using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Text.Json;
 
 namespace E_Commerce.Web
 {
@@ -55,7 +57,24 @@ namespace E_Commerce.Web
             app.UseCustomExceptionMiddleWare();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwaggerMiddleWare();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.ConfigObject=new ConfigObject
+                    {
+                     DisplayRequestDuration= true
+                    };
+                    options.DocumentTitle = "My E-Commerce API";
+
+                    options.JsonSerializerOptions=new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy= JsonNamingPolicy.CamelCase
+                    };
+
+                    options.DocExpansion(DocExpansion.None);
+                    options.EnableFilter();
+                    options.EnablePersistAuthorization();
+                });
             }
 
             app.UseHttpsRedirection();
