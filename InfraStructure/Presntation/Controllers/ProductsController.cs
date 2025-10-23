@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presntation.Attributes;
 using ServiceAbstraction;
 using Shared;
 using Shared.DataTransferObjects.ProductModuleDtos;
@@ -10,13 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Presntation.Controllers
-{
-    
+{ 
     public class ProductsController(IServiceManager _serviceManager) : ApiBaseController
     {
         // Get All Products
         //Get BaseUrl/api/Products
         [HttpGet]
+        [Cache]
+     
         public async Task<ActionResult<PaginationResult<ProductDTo>>> GetAllProducts([FromQuery]ProductQueryParams queryParams)
         {
            var Products = await _serviceManager.ProductService.GetAllProductsAsync(queryParams);
@@ -35,6 +37,8 @@ namespace Presntation.Controllers
         //Get all types
         //Get BaseUrl/api/Products/types
         [HttpGet("types")]
+        [Cache]
+
         public async Task<ActionResult<IEnumerable<TypeDTo>>> GetTypes()
         {
             var Types = await _serviceManager.ProductService.GetAllTypesAsync();
@@ -43,6 +47,8 @@ namespace Presntation.Controllers
         //Get all brands
         //Get BaseUrl/api/Products/brands
         [HttpGet("brands")]
+        [Cache]
+
         public async Task<ActionResult<IEnumerable<BrandDTo>>> GetBrands()
         {
             var Brands = await _serviceManager.ProductService.GetAllBrandsAsync();
